@@ -1,0 +1,6 @@
+@Shortie.Api_HostAddress = http://localhost:5140
+
+GET {{Shortie.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
