@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore .NET
+        run: dotnet restore ShortieFullstack.sln
+
+      - name: Build .NET
+        run: dotnet build ShortieFullstack.sln --configuration Release --no-restore
+
+      - name: Test .NET
+        run: dotnet test ShortieFullstack.sln --configuration Release --no-build --verbosity normal
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: shortie-web/package-lock.json
+
+      - name: Install Frontend Dependencies
+        working-directory: shortie-web
+        run: npm ci
+
+      - name: Lint Frontend
+        working-directory: shortie-web
+        run: npm run lint
+
+      - name: Build Frontend
+        working-directory: shortie-web
+        run: npm run build

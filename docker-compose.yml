@@ -1,0 +1,48 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: shortie-sql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_strong_password123"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"Your_strong_password123\" -Q \"SELECT 1\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 20s
+
+  api:
+    build:
+      context: .
+      dockerfile: Shortie.Api/Dockerfile
+    container_name: shortie-api
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=ShortieDb;User Id=sa;Password=Your_strong_password123;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=true"
+      Jwt__Issuer: "Shortie.Api"
+      Jwt__Audience: "Shortie.Client"
+      Jwt__Key: "7b93df025a1e847cd3b44b25e7913d80a1843dfc789a24bc1025a756b1025d5c"
+      Jwt__AccessTokenMinutes: "30"
+      Jwt__RefreshTokenDays: "7"
+      App__BaseUrl: "http://localhost:5000"
+      App__FrontendUrl: "http://localhost:3000"
+    ports:
+      - "5000:8080"
+
+  web:
+    build:
+      context: .
+      dockerfile: shortie-web/Dockerfile
+      args:
+        VITE_API_BASE_URL: "http://localhost:5000"
+    container_name: shortie-web
+    depends_on:
+      - api
+    ports:
+      - "3000:80"
