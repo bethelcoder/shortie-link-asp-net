@@ -269,6 +269,11 @@ public class UrlsController : ControllerBase
     private string ToPublicShortLink(ShortUrl shortUrl)
     {
         var baseUrl = _configuration["App:BaseUrl"]?.TrimEnd('/') ?? "http://localhost:5000";
+        if (!baseUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) && 
+            !baseUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            baseUrl = "https://" + baseUrl;
+        }
         var code = shortUrl.CustomAlias ?? shortUrl.ShortCode;
         return $"{baseUrl}/r/{code}";
     }
