@@ -33,7 +33,7 @@ jobs:
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          VITE_API_BASE_URL: "https://shortie-api.azurewebsites.net"
+          VITE_API_BASE_URL: "https://shortie-api-duakdefucsa4b4ch.southafricanorth-01.azurewebsites.net"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
