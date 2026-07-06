@@ -173,7 +173,6 @@ function App() {
   return (
     <div className="page">
       <header className="hero">
-        <p className="tag">Graduate .NET Portfolio Project</p>
         <h1>Shortie Fullstack</h1>
         <p className="subtitle">ASP.NET Core 9 + React URL shortener with analytics, JWT auth, and QR codes.</p>
       </header>
