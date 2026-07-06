@@ -31,7 +31,7 @@ services:
       Jwt__AccessTokenMinutes: "30"
       Jwt__RefreshTokenDays: "7"
       App__BaseUrl: "http://localhost:5000"
-      App__FrontendUrl: "http://localhost:3000"
+      App__FrontendUrl: "http://localhost:3000;https://ambitious-moss-0e3c46e10.7.azurestaticapps.net"
     ports:
       - "5000:8080"
 
