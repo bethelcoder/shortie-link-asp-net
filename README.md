@@ -1,6 +1,5 @@
 # Shortie Fullstack (.NET + React)
-
-Portfolio-ready full-stack URL shortener tailored for Graduate .NET developer interviews.
+A simple link shortener that explores complex Software Engineering architecture concepts, technologies and tools
 
 ## Tech Stack
 
@@ -22,6 +21,7 @@ Frontend
 DevOps
 - Docker + Docker Compose
 - GitHub Actions CI
+- Azure DevOps
 
 ## Features
 
